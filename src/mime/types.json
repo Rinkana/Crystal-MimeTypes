@@ -1,0 +1,12 @@
+[
+  {
+    "type": "image/png",
+    "extensions": ["png"],
+    "byte_pattern": "89 50 4E 47 0D 0A 1A 0A"
+  },
+  {
+    "type": "image/jpeg",
+    "extensions": ["jpg","jpeg","jpe","jif","jfif","jfi"],
+    "byte_pattern": "FF D8 FF"
+  }
+]
