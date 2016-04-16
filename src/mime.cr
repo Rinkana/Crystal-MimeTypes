@@ -18,17 +18,12 @@ module Mime
       #!header_byte.nil? ? (file_header += sprintf("%02X", file.read_byte) + " ") : (break)
 
       file_header += sprintf("%02X", file.read_byte) + " " if !header_byte.nil?
-
       break if header_byte.nil?
     end
 
-    puts @@header_size.to_s+" "+file_header
-
     #Try to find a type based on the byte_pattern
     result = index.select {|mime_type| !mime_type.byte_pattern.empty? && file_header.starts_with? mime_type.byte_pattern}
-    if result.size == 1 #single result found, return
-      return result.first
-    end
+    return result.first if result.size == 1 #single result found, return
 
     file_extension = File.extname(file.path)[1..-1] #Get the extension and remove the dot
     if result.size >= 1
