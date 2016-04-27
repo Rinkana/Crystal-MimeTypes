@@ -2,26 +2,70 @@
   {
     "type": "image/png",
     "extensions": ["png"],
-    "byte_patterns": ["89 50 4E 47 0D 0A 1A 0A"]
+    "byte_patterns": [{"pattern":"89 50 4E 47 0D 0A 1A 0A"}]
   },
   {
     "type": "image/jpeg",
     "extensions": ["jpg","jpeg","jpe","jif","jfif","jfi"],
-    "byte_patterns": ["FF D8 FF"]
+    "byte_patterns": [{"pattern":"FF D8 FF"}]
   },
   {
     "type": "image/bmp",
     "extensions": ["bmp","dib"],
-    "byte_patterns": ["42 4D"]
+    "byte_patterns": [{"pattern":"42 4D"}]
   },
   {
     "type": "image/gif",
     "extensions": ["gif"],
-    "byte_patterns": ["47 49 46 38 37 61", "47 49 46 38 39 61"]
+    "byte_patterns": [
+      {"pattern":"47 49 46 38 37 61"},
+      {"pattern":"47 49 46 38 39 61"}
+    ]
   },
   {
     "type": "image/webp",
     "extensions": ["webp"],
-    "byte_patterns": ["52 49 46 46 00 00 00 00 57 45 42 50 56 50"]
+    "byte_patterns": [{"pattern":"52 49 46 46 00 00 00 00 57 45 42 50 56 50","mask":"FF FF FF FF 00 00 00 00 FF FF FF FF FF FF"}]
+  },
+  {
+    "type": "image/x-icon",
+    "extensions": ["ico"],
+    "byte_patterns": [
+      {"pattern":"00 00 01 00"},
+      {"pattern":"00 00 02 00"}
+    ]
+  },
+  {
+    "type": "application/pdf",
+    "extensions": ["pdf"],
+    "byte_patterns": [{"pattern":"25 50 44 46 2D"}]
+  },
+  {
+    "type": "text/html",
+    "extensions": ["html","htm"],
+    "byte_patterns": [
+      {"pattern":"3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C"},
+      {"pattern":"3C 48 54 4D 4C"},
+      {"pattern":"3C 48 45 41 44"},
+      {"pattern":"3C 53 43 52 49 50 54"},
+      {"pattern":"3C 49 46 52 41 4D 45"},
+      {"pattern":"3C 48 31"},
+      {"pattern":"3C 44 49 56"},
+      {"pattern":"3C 46 4F 4E 54"},
+      {"pattern":"3C 54 41 42 4C 45"},
+      {"pattern":"3C 41"},
+      {"pattern":"3C 53 54 59 4C 45"},
+      {"pattern":"3C 54 49 54 4C 45"},
+      {"pattern":"3C 42"},
+      {"pattern":"3C 42 4F 44 59"},
+      {"pattern":"3C 42 52"},
+      {"pattern":"3C 50"},
+      {"pattern":"3C 21 2D 2D"}
+    ]
+  },
+  {
+    "type": "text/xml",
+    "extensions": ["xml"],
+    "byte_patterns": [{"pattern":"3C 3F 78 6D 6C"}]
   }
 ]

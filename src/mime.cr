@@ -1,3 +1,7 @@
+#Mimetype finder
+#Implementation based on https://mimesniff.spec.whatwg.org/
+
+
 require "json"
 require "./mime/*"
 
@@ -16,10 +20,11 @@ module Mime
     1.upto(@@header_size) do
       header_byte = file.read_byte
       #!header_byte.nil? ? (file_header += sprintf("%02X", file.read_byte) + " ") : (break)
-
       file_header += sprintf("%02X", header_byte) + " " if !header_byte.nil?
       break if header_byte.nil?
     end
+    file.rewind #reset pointer to the start so it will not interfere with other uses of this file
+
     #Try to find a type based on the byte_pattern
     result = index.select {|mime_type| mime_type.match_pattern?(file_header) }
     return result.first if result.size == 1 #single result found, return
@@ -52,7 +57,7 @@ module Mime
       mime_types = [] of MimeType
       JSON.parse(type_defs).each do |typedef|
         mime_type = MimeType.from_json(typedef.to_json)
-        header_size = mime_type.biggest_pattern.delete(' ').size / 2
+        header_size = mime_type.biggest_pattern.pattern.delete(' ').size / 2
 
         @@header_size = header_size if header_size > @@header_size
 
