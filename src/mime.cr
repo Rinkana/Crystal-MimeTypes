@@ -27,6 +27,7 @@ module Mime
 
     #Try to find a type based on the byte_pattern
     result = index.select {|mime_type| mime_type.match_pattern?(file_header) }
+    
     return result.first if result.size == 1 #single result found, return
 
     file_extension = File.extname(file.path)[1..-1] #Get the extension and remove the dot
