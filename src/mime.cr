@@ -9,6 +9,7 @@ module Mime
 
   @@mimes_loaded = false
   @@header_size = 0 #How many bytes are needed to try all byte_patterns
+  @@mime_types = [] of MimeType
 
   #Get the mime tipe from a `file`
   def self.from_file(file)
@@ -27,7 +28,7 @@ module Mime
 
     #Try to find a type based on the byte_pattern
     result = index.select {|mime_type| mime_type.match_pattern?(file_header) }
-    
+
     return result.first if result.size == 1 #single result found, return
 
     file_extension = File.extname(file.path)[1..-1] #Get the extension and remove the dot
@@ -53,19 +54,24 @@ module Mime
   #TODO: Is it a good idea to cache this?
   #Is there a middle road availible?
   def self.index
-    @@mime_types ||= begin
-      type_defs = File.read(File.join(__DIR__, "mime/types.json"))
-      mime_types = [] of MimeType
-      JSON.parse(type_defs).each do |typedef|
-        mime_type = MimeType.from_json(typedef.to_json)
-        header_size = mime_type.biggest_pattern.pattern.delete(' ').size / 2
 
-        @@header_size = header_size if header_size > @@header_size
+    if !@@mimes_loaded
+      @@mime_types = begin
+        type_defs = File.read(File.join(__DIR__, "mime/types.json"))
+        mime_types = [] of MimeType
+        JSON.parse(type_defs).each do |typedef|
+          mime_type = MimeType.from_json(typedef.to_json)
+          header_size = mime_type.biggest_pattern.pattern.delete(' ').size / 2
 
-        mime_types << mime_type
+          @@header_size = header_size if header_size > @@header_size
+
+          mime_types << mime_type
+        end
+        @@mimes_loaded = true
+        mime_types
       end
-      @@mimes_loaded = true
-      mime_types
     end
+    @@mime_types
+    
   end
 end
